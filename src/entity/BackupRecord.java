@@ -7,11 +7,7 @@ import javax.persistence.Id;
 import java.sql.Date;
 
 /**
-<<<<<<< HEAD
- * Created by junyuan on 02/01/2017.
-=======
- * Created by Ding on 17/1/2.
->>>>>>> 8e476427233c2ec8ff3504cdb28dfeff6b3f0910
+ * Created by Ding on 17/1/3.
  */
 @Entity
 public class BackupRecord {

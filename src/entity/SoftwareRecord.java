@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import java.sql.Date;
 
 /**
- * Created by junyuan on 02/01/2017.
+ * Created by Ding on 17/1/3.
  */
 @Entity
 public class SoftwareRecord {
