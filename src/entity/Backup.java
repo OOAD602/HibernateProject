@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import java.sql.Date;
 
 /**
- * Created by Ding on 17/1/2.
+ * Created by junyuan on 02/01/2017.
  */
 @Entity
 public class Backup {
