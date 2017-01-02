@@ -28,7 +28,8 @@ public class Main {
     public static void main(final String[] args) throws Exception {
         final Session session = getSession();
         EquipmentService es = new EquipmentService();
-        es.addEquipment("hi", 0);
+//        es.addEquipment("macbookpro", 0);
+        es.borrowEquipment("U001","macbookpro");
         try {
             System.out.println("querying all the managed entities...");
 

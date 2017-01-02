@@ -11,6 +11,7 @@
         <mapping class="entity.Backup"/>
         <mapping class="entity.Employee"/>
         <mapping class="entity.Equipment"/>
+        <mapping class="entity.EquipmentRecord"/>
         <mapping class="entity.Software"/>
         <mapping class="entity.SoftwareRecord"/>
         <mapping class="entity.AddRecord"/>
