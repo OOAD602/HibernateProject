@@ -7,18 +7,18 @@ import java.io.Serializable;
 /**
  * Created by junyuan on 02/01/2017.
  */
-public class SoftwareRecordPK implements Serializable {
-    private String softwareId;
+public class BackupRecordPK implements Serializable {
+    private String backupId;
     private String employeeId;
 
-    @Column(name = "softwareId")
+    @Column(name = "backupId")
     @Id
-    public String getSoftwareId() {
-        return softwareId;
+    public String getBackupId() {
+        return backupId;
     }
 
-    public void setSoftwareId(String softwareId) {
-        this.softwareId = softwareId;
+    public void setBackupId(String backupId) {
+        this.backupId = backupId;
     }
 
     @Column(name = "employeeId")
@@ -36,9 +36,9 @@ public class SoftwareRecordPK implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        SoftwareRecordPK that = (SoftwareRecordPK) o;
+        BackupRecordPK that = (BackupRecordPK) o;
 
-        if (softwareId != null ? !softwareId.equals(that.softwareId) : that.softwareId != null) return false;
+        if (backupId != null ? !backupId.equals(that.backupId) : that.backupId != null) return false;
         if (employeeId != null ? !employeeId.equals(that.employeeId) : that.employeeId != null) return false;
 
         return true;
@@ -46,7 +46,7 @@ public class SoftwareRecordPK implements Serializable {
 
     @Override
     public int hashCode() {
-        int result = softwareId != null ? softwareId.hashCode() : 0;
+        int result = backupId != null ? backupId.hashCode() : 0;
         result = 31 * result + (employeeId != null ? employeeId.hashCode() : 0);
         return result;
     }

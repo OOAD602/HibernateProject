@@ -6,8 +6,6 @@
     <session-factory>
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
         <property name="connection.url">jdbc:mysql://localhost:3306/promanager</property>
-        <property name="connection.username">root</property>
-        <property name="connection.password">stay</property>
         <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
         <property name="show_sql">true</property>
         <mapping class="entity.Backup"/>
@@ -15,6 +13,9 @@
         <mapping class="entity.Equipment"/>
         <mapping class="entity.Software"/>
         <mapping class="entity.SoftwareRecord"/>
+        <mapping class="entity.AddRecord"/>
+        <mapping class="entity.BackupRecord"/>
+        <mapping class="entity.EquipmentRecord"/>
         <!-- DB schema will be updated if needed -->
         <!-- <property name="hbm2ddl.auto">update</property> -->
     </session-factory>

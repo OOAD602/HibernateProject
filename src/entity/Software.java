@@ -7,13 +7,15 @@ import javax.persistence.Id;
 import java.sql.Date;
 
 /**
- * Created by Ding on 17/1/2.
+ * Created by junyuan on 02/01/2017.
  */
 @Entity
 public class Software {
     private String softwareId;
     private String softwareName;
     private Date updateDate;
+    private Date expireDate;
+    private Byte softwareActive;
 
     @Id
     @Column(name = "softwareId")
@@ -45,6 +47,26 @@ public class Software {
         this.updateDate = updateDate;
     }
 
+    @Basic
+    @Column(name = "expireDate")
+    public Date getExpireDate() {
+        return expireDate;
+    }
+
+    public void setExpireDate(Date expireDate) {
+        this.expireDate = expireDate;
+    }
+
+    @Basic
+    @Column(name = "softwareActive")
+    public Byte getSoftwareActive() {
+        return softwareActive;
+    }
+
+    public void setSoftwareActive(Byte softwareActive) {
+        this.softwareActive = softwareActive;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -56,6 +78,9 @@ public class Software {
         if (softwareName != null ? !softwareName.equals(software.softwareName) : software.softwareName != null)
             return false;
         if (updateDate != null ? !updateDate.equals(software.updateDate) : software.updateDate != null) return false;
+        if (expireDate != null ? !expireDate.equals(software.expireDate) : software.expireDate != null) return false;
+        if (softwareActive != null ? !softwareActive.equals(software.softwareActive) : software.softwareActive != null)
+            return false;
 
         return true;
     }
@@ -65,6 +90,8 @@ public class Software {
         int result = softwareId != null ? softwareId.hashCode() : 0;
         result = 31 * result + (softwareName != null ? softwareName.hashCode() : 0);
         result = 31 * result + (updateDate != null ? updateDate.hashCode() : 0);
+        result = 31 * result + (expireDate != null ? expireDate.hashCode() : 0);
+        result = 31 * result + (softwareActive != null ? softwareActive.hashCode() : 0);
         return result;
     }
 }
