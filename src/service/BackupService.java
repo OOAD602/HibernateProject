@@ -1,7 +1,8 @@
 package service;
 
-import dao.BackupDao;
+import dao.Dao;
 import entity.Backup;
+import entity.BackupRecord;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -11,34 +12,60 @@ import java.util.Date;
  * Created by Ding on 17/1/1.
  */
 public class BackupService {
-    BackupDao dao = new BackupDao();
-    public boolean addBackup(String name, String descriptor, int autho) {
-        if(autho != 0 && autho != 1) {
-            return false;
+    Dao dao = new Dao();
+
+    public void addBackup(String name, int autho) {
+        if (autho != 0 && autho != 1) {
+            System.out.println("无此权限");
         }
         Backup newBackup = new Backup();
         newBackup.setBackupName(name);
-        LocalDate todayLocalDate = LocalDate.now( ZoneId.of( "America/Montreal" ) );
-        java.sql.Date sqlDate = java.sql.Date.valueOf( todayLocalDate );
+        LocalDate todayLocalDate = LocalDate.now(ZoneId.of("America/Montreal"));
+        java.sql.Date sqlDate = java.sql.Date.valueOf(todayLocalDate);
         newBackup.setBackPurchaseDate(sqlDate);
-        return dao.saveAddBackup(newBackup);
+        newBackup.setBackupId("B" + System.currentTimeMillis());
+        newBackup.setBackActive(State.ACTIVE);
+        boolean result = dao.buy(newBackup);
+        if (result) {
+            System.out.println("新增备件成功");
+        } else {
+            System.out.println("新增备件失败");
+        }
     }
+
     public boolean brokeBackup(String backupId, int autho) {
-        if(autho != 0 && autho != 1) {
+        if (autho != 0 && autho != 1) {
             return false;
         }
-        LocalDate todayLocalDate = LocalDate.now( ZoneId.of( "America/Montreal" ) );
-        java.sql.Date sqlDate = java.sql.Date.valueOf( todayLocalDate );
+        LocalDate todayLocalDate = LocalDate.now(ZoneId.of("America/Montreal"));
+        java.sql.Date sqlDate = java.sql.Date.valueOf(todayLocalDate);
         return dao.saveBrokenBackup(sqlDate, backupId);
     }
-    public boolean borrowBackup(String eId, String backupName) {
-        LocalDate todayLocalDate = LocalDate.now( ZoneId.of( "America/Montreal" ) );
-        java.sql.Date sqlDate = java.sql.Date.valueOf( todayLocalDate );
-        return dao.saveBorrowBackup(eId, sqlDate, backupName);
+
+    public void borrowBackup(String employeeId, String eId, String backupName) {
+        LocalDate todayLocalDate = LocalDate.now(ZoneId.of("America/Montreal"));
+        java.sql.Date sqlDate = java.sql.Date.valueOf(todayLocalDate);
+        BackupRecord br = new BackupRecord();
+        br.setBackApplyDate(sqlDate);
+        br.setEquipmentId(eId);
+        br.setEmployeeId(employeeId);
+        br.setBackupRecordId("BR" + System.currentTimeMillis());
+        String result = dao.borrowBackup(br, backupName);
+        if (result != null) {
+            System.out.println("申请备件成功，您为设备" + eId + "申请到的备件ID为：" + result);
+        } else {
+            System.out.println("申请备件失败");
+        }
     }
-    public boolean returnBackup(String backupId) {
-        LocalDate todayLocalDate = LocalDate.now( ZoneId.of( "America/Montreal" ) );
-        java.sql.Date sqlDate = java.sql.Date.valueOf( todayLocalDate );
-        return dao.saveReturnBackup(sqlDate, backupId);
+
+    public void returnBackup(String backupId) {
+        LocalDate todayLocalDate = LocalDate.now(ZoneId.of("America/Montreal"));
+        java.sql.Date sqlDate = java.sql.Date.valueOf(todayLocalDate);
+        boolean result = dao.returnBackup(sqlDate, backupId);
+        if (result) {
+            System.out.println("归还备件成功");
+        } else {
+            System.out.println("归还备件失败");
+        }
     }
 }

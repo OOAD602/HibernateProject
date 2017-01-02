@@ -8,8 +8,6 @@ import dao.Dao;
 import entity.Equipment;
 import entity.EquipmentRecord;
 
-import dao.EquipmentDao;
-
 /**
  * Created by Ding on 17/1/1.
  */
@@ -31,28 +29,45 @@ public class EquipmentService {
         return dao.buy(newEquipment);
     }
 
-    public boolean borrowEquipment(String userId, String equipmentName) {
+    public void borrowEquipment(String userId, String equipmentName) {
         LocalDate todayLocalDate = LocalDate.now(ZoneId.of("America/Montreal"));
         java.sql.Date sqlDate = java.sql.Date.valueOf(todayLocalDate);
         EquipmentRecord er = new EquipmentRecord();
         er.setApplyDate(sqlDate);
         er.setEmployeeId(userId);
-        return dao.borrow(er, equipmentName);
+        er.setEquipmentRecordId("ER" + System.currentTimeMillis());
+        String equipId = dao.borrowEquipment(er, equipmentName);
+        if (equipId != null) {
+            System.out.println("您申请到的设备ID为：" + equipId);
+        } else {
+            System.out.println("您未成功申领到设备");
+        }
     }
 
-    public boolean returnEquipment(String equipmentId) {
+    public void returnEquipment(String equipmentId) {
         LocalDate todayLocalDate = LocalDate.now(ZoneId.of("America/Montreal"));
         java.sql.Date sqlDate = java.sql.Date.valueOf(todayLocalDate);
-        return dao.saveReturnEquipment(sqlDate, equipmentId);
+        boolean result = dao.returnEquipment(sqlDate, equipmentId);
+        if (result) {
+            System.out.println("归还成功");
+        } else {
+            System.out.println("归还失败");
+        }
     }
 
-    public boolean brokeEquipment(String equipmentId, int autho) {
+    public void brokeEquipment(String equipmentId, int autho) {
         if (autho != 0 && autho != 1) {
-            return false;
+            System.out.println("无权限");
+            ;
         }
         LocalDate todayLocalDate = LocalDate.now(ZoneId.of("America/Montreal"));
         java.sql.Date sqlDate = java.sql.Date.valueOf(todayLocalDate);
-        return dao.saveBrokenEquipment(sqlDate, equipmentId);
+        boolean result = dao.saveBrokenEquipment(sqlDate, equipmentId);
+        if (result) {
+            System.out.println("报废成功");
+        } else {
+            System.out.println("报废失败");
+        }
     }
 
 

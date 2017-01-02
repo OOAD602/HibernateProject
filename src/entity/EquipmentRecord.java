@@ -1,20 +1,23 @@
 package entity;
 
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.sql.Date;
 
 /**
  * Created by Ding on 17/1/2.
  */
 @Entity
-@IdClass(EquipmentRecordPK.class)
 public class EquipmentRecord {
     private String equipmentId;
     private String employeeId;
     private Date applyDate;
     private Date returnDate;
+    private String equipmentRecordId;
 
-    @Id
+    @Basic
     @Column(name = "equipmentId")
     public String getEquipmentId() {
         return equipmentId;
@@ -24,7 +27,7 @@ public class EquipmentRecord {
         this.equipmentId = equipmentId;
     }
 
-    @Id
+    @Basic
     @Column(name = "employeeId")
     public String getEmployeeId() {
         return employeeId;
@@ -54,6 +57,16 @@ public class EquipmentRecord {
         this.returnDate = returnDate;
     }
 
+    @Id
+    @Column(name = "equipmentRecordId")
+    public String getEquipmentRecordId() {
+        return equipmentRecordId;
+    }
+
+    public void setEquipmentRecordId(String equipmentRecordId) {
+        this.equipmentRecordId = equipmentRecordId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -65,6 +78,8 @@ public class EquipmentRecord {
         if (employeeId != null ? !employeeId.equals(that.employeeId) : that.employeeId != null) return false;
         if (applyDate != null ? !applyDate.equals(that.applyDate) : that.applyDate != null) return false;
         if (returnDate != null ? !returnDate.equals(that.returnDate) : that.returnDate != null) return false;
+        if (equipmentRecordId != null ? !equipmentRecordId.equals(that.equipmentRecordId) : that.equipmentRecordId != null)
+            return false;
 
         return true;
     }
@@ -75,6 +90,7 @@ public class EquipmentRecord {
         result = 31 * result + (employeeId != null ? employeeId.hashCode() : 0);
         result = 31 * result + (applyDate != null ? applyDate.hashCode() : 0);
         result = 31 * result + (returnDate != null ? returnDate.hashCode() : 0);
+        result = 31 * result + (equipmentRecordId != null ? equipmentRecordId.hashCode() : 0);
         return result;
     }
 }

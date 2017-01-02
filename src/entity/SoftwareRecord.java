@@ -1,20 +1,23 @@
 package entity;
 
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.sql.Date;
 
 /**
  * Created by Ding on 17/1/2.
  */
 @Entity
-@IdClass(SoftwareRecordPK.class)
 public class SoftwareRecord {
     private String softwareId;
     private String employeeId;
     private Date installDate;
     private Date uninstallDate;
+    private String softwareRecordId;
 
-    @Id
+    @Basic
     @Column(name = "softwareId")
     public String getSoftwareId() {
         return softwareId;
@@ -24,7 +27,7 @@ public class SoftwareRecord {
         this.softwareId = softwareId;
     }
 
-    @Id
+    @Basic
     @Column(name = "employeeId")
     public String getEmployeeId() {
         return employeeId;
@@ -54,6 +57,16 @@ public class SoftwareRecord {
         this.uninstallDate = uninstallDate;
     }
 
+    @Id
+    @Column(name = "softwareRecordId")
+    public String getSoftwareRecordId() {
+        return softwareRecordId;
+    }
+
+    public void setSoftwareRecordId(String softwareRecordId) {
+        this.softwareRecordId = softwareRecordId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -66,6 +79,8 @@ public class SoftwareRecord {
         if (installDate != null ? !installDate.equals(that.installDate) : that.installDate != null) return false;
         if (uninstallDate != null ? !uninstallDate.equals(that.uninstallDate) : that.uninstallDate != null)
             return false;
+        if (softwareRecordId != null ? !softwareRecordId.equals(that.softwareRecordId) : that.softwareRecordId != null)
+            return false;
 
         return true;
     }
@@ -76,6 +91,7 @@ public class SoftwareRecord {
         result = 31 * result + (employeeId != null ? employeeId.hashCode() : 0);
         result = 31 * result + (installDate != null ? installDate.hashCode() : 0);
         result = 31 * result + (uninstallDate != null ? uninstallDate.hashCode() : 0);
+        result = 31 * result + (softwareRecordId != null ? softwareRecordId.hashCode() : 0);
         return result;
     }
 }

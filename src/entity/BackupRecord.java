@@ -1,20 +1,24 @@
 package entity;
 
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.sql.Date;
 
 /**
  * Created by Ding on 17/1/2.
  */
 @Entity
-@IdClass(BackupRecordPK.class)
 public class BackupRecord {
     private String backupId;
     private String employeeId;
     private Date backApplyDate;
     private Date backReturnDate;
+    private String backupRecordId;
+    private String equipmentId;
 
-    @Id
+    @Basic
     @Column(name = "backupId")
     public String getBackupId() {
         return backupId;
@@ -24,7 +28,7 @@ public class BackupRecord {
         this.backupId = backupId;
     }
 
-    @Id
+    @Basic
     @Column(name = "employeeId")
     public String getEmployeeId() {
         return employeeId;
@@ -54,6 +58,26 @@ public class BackupRecord {
         this.backReturnDate = backReturnDate;
     }
 
+    @Id
+    @Column(name = "backupRecordId")
+    public String getBackupRecordId() {
+        return backupRecordId;
+    }
+
+    public void setBackupRecordId(String backupRecordId) {
+        this.backupRecordId = backupRecordId;
+    }
+
+    @Basic
+    @Column(name = "equipmentId")
+    public String getEquipmentId() {
+        return equipmentId;
+    }
+
+    public void setEquipmentId(String equipmentId) {
+        this.equipmentId = equipmentId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -67,6 +91,9 @@ public class BackupRecord {
             return false;
         if (backReturnDate != null ? !backReturnDate.equals(that.backReturnDate) : that.backReturnDate != null)
             return false;
+        if (backupRecordId != null ? !backupRecordId.equals(that.backupRecordId) : that.backupRecordId != null)
+            return false;
+        if (equipmentId != null ? !equipmentId.equals(that.equipmentId) : that.equipmentId != null) return false;
 
         return true;
     }
@@ -77,6 +104,8 @@ public class BackupRecord {
         result = 31 * result + (employeeId != null ? employeeId.hashCode() : 0);
         result = 31 * result + (backApplyDate != null ? backApplyDate.hashCode() : 0);
         result = 31 * result + (backReturnDate != null ? backReturnDate.hashCode() : 0);
+        result = 31 * result + (backupRecordId != null ? backupRecordId.hashCode() : 0);
+        result = 31 * result + (equipmentId != null ? equipmentId.hashCode() : 0);
         return result;
     }
 }
