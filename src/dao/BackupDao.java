@@ -9,6 +9,7 @@ import java.util.Date;
  */
 public class BackupDao {
     public boolean saveAddBackup(Backup newBackup) {
+
         return true;
     }
     public boolean saveBrokenBackup(Date brokeDate, String backupId) {

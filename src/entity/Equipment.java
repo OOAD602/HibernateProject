@@ -14,9 +14,8 @@ public class Equipment {
     private String equipmentId;
     private Date purchaseDate;
     private String equipmentName;
-    private Date applyDate;
-    private Date returnDate;
     private Date brokenDate;
+    private Byte equipmentActive;
 
     @Id
     @Column(name = "equipmentId")
@@ -49,26 +48,6 @@ public class Equipment {
     }
 
     @Basic
-    @Column(name = "applyDate")
-    public Date getApplyDate() {
-        return applyDate;
-    }
-
-    public void setApplyDate(Date applyDate) {
-        this.applyDate = applyDate;
-    }
-
-    @Basic
-    @Column(name = "returnDate")
-    public Date getReturnDate() {
-        return returnDate;
-    }
-
-    public void setReturnDate(Date returnDate) {
-        this.returnDate = returnDate;
-    }
-
-    @Basic
     @Column(name = "brokenDate")
     public Date getBrokenDate() {
         return brokenDate;
@@ -76,6 +55,16 @@ public class Equipment {
 
     public void setBrokenDate(Date brokenDate) {
         this.brokenDate = brokenDate;
+    }
+
+    @Basic
+    @Column(name = "equipmentActive")
+    public Byte getEquipmentActive() {
+        return equipmentActive;
+    }
+
+    public void setEquipmentActive(Byte equipmentActive) {
+        this.equipmentActive = equipmentActive;
     }
 
     @Override
@@ -91,9 +80,9 @@ public class Equipment {
             return false;
         if (equipmentName != null ? !equipmentName.equals(equipment.equipmentName) : equipment.equipmentName != null)
             return false;
-        if (applyDate != null ? !applyDate.equals(equipment.applyDate) : equipment.applyDate != null) return false;
-        if (returnDate != null ? !returnDate.equals(equipment.returnDate) : equipment.returnDate != null) return false;
         if (brokenDate != null ? !brokenDate.equals(equipment.brokenDate) : equipment.brokenDate != null) return false;
+        if (equipmentActive != null ? !equipmentActive.equals(equipment.equipmentActive) : equipment.equipmentActive != null)
+            return false;
 
         return true;
     }
@@ -103,9 +92,8 @@ public class Equipment {
         int result = equipmentId != null ? equipmentId.hashCode() : 0;
         result = 31 * result + (purchaseDate != null ? purchaseDate.hashCode() : 0);
         result = 31 * result + (equipmentName != null ? equipmentName.hashCode() : 0);
-        result = 31 * result + (applyDate != null ? applyDate.hashCode() : 0);
-        result = 31 * result + (returnDate != null ? returnDate.hashCode() : 0);
         result = 31 * result + (brokenDate != null ? brokenDate.hashCode() : 0);
+        result = 31 * result + (equipmentActive != null ? equipmentActive.hashCode() : 0);
         return result;
     }
 }

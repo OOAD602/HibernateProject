@@ -13,10 +13,9 @@ import java.sql.Date;
 public class Backup {
     private String backupId;
     private String backupName;
-    private Date backApplyDate;
-    private Date backReturnDate;
-    private Date backBrokenDate;
     private Date backPurchaseDate;
+    private Date backBrokenDate;
+    private Byte backActive;
 
     @Id
     @Column(name = "backupId")
@@ -39,23 +38,13 @@ public class Backup {
     }
 
     @Basic
-    @Column(name = "backApplyDate")
-    public Date getBackApplyDate() {
-        return backApplyDate;
+    @Column(name = "backPurchaseDate")
+    public Date getBackPurchaseDate() {
+        return backPurchaseDate;
     }
 
-    public void setBackApplyDate(Date backApplyDate) {
-        this.backApplyDate = backApplyDate;
-    }
-
-    @Basic
-    @Column(name = "backReturnDate")
-    public Date getBackReturnDate() {
-        return backReturnDate;
-    }
-
-    public void setBackReturnDate(Date backReturnDate) {
-        this.backReturnDate = backReturnDate;
+    public void setBackPurchaseDate(Date backPurchaseDate) {
+        this.backPurchaseDate = backPurchaseDate;
     }
 
     @Basic
@@ -69,13 +58,13 @@ public class Backup {
     }
 
     @Basic
-    @Column(name = "backPurchaseDate")
-    public Date getBackPurchaseDate() {
-        return backPurchaseDate;
+    @Column(name = "backActive")
+    public Byte getBackActive() {
+        return backActive;
     }
 
-    public void setBackPurchaseDate(Date backPurchaseDate) {
-        this.backPurchaseDate = backPurchaseDate;
+    public void setBackActive(Byte backActive) {
+        this.backActive = backActive;
     }
 
     @Override
@@ -87,14 +76,11 @@ public class Backup {
 
         if (backupId != null ? !backupId.equals(backup.backupId) : backup.backupId != null) return false;
         if (backupName != null ? !backupName.equals(backup.backupName) : backup.backupName != null) return false;
-        if (backApplyDate != null ? !backApplyDate.equals(backup.backApplyDate) : backup.backApplyDate != null)
-            return false;
-        if (backReturnDate != null ? !backReturnDate.equals(backup.backReturnDate) : backup.backReturnDate != null)
+        if (backPurchaseDate != null ? !backPurchaseDate.equals(backup.backPurchaseDate) : backup.backPurchaseDate != null)
             return false;
         if (backBrokenDate != null ? !backBrokenDate.equals(backup.backBrokenDate) : backup.backBrokenDate != null)
             return false;
-        if (backPurchaseDate != null ? !backPurchaseDate.equals(backup.backPurchaseDate) : backup.backPurchaseDate != null)
-            return false;
+        if (backActive != null ? !backActive.equals(backup.backActive) : backup.backActive != null) return false;
 
         return true;
     }
@@ -103,10 +89,9 @@ public class Backup {
     public int hashCode() {
         int result = backupId != null ? backupId.hashCode() : 0;
         result = 31 * result + (backupName != null ? backupName.hashCode() : 0);
-        result = 31 * result + (backApplyDate != null ? backApplyDate.hashCode() : 0);
-        result = 31 * result + (backReturnDate != null ? backReturnDate.hashCode() : 0);
-        result = 31 * result + (backBrokenDate != null ? backBrokenDate.hashCode() : 0);
         result = 31 * result + (backPurchaseDate != null ? backPurchaseDate.hashCode() : 0);
+        result = 31 * result + (backBrokenDate != null ? backBrokenDate.hashCode() : 0);
+        result = 31 * result + (backActive != null ? backActive.hashCode() : 0);
         return result;
     }
 }
