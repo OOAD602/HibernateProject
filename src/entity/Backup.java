@@ -94,4 +94,15 @@ public class Backup {
         result = 31 * result + (backActive != null ? backActive.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Backup{" +
+                "backupId='" + backupId + '\'' +
+                ", backupName='" + backupName + '\'' +
+                ", backPurchaseDate=" + backPurchaseDate +
+                ", backBrokenDate=" + backBrokenDate +
+                ", backActive=" + backActive +
+                '}';
+    }
 }
