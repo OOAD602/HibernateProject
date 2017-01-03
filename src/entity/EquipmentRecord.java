@@ -93,4 +93,15 @@ public class EquipmentRecord {
         result = 31 * result + (returnDate != null ? returnDate.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "EquipmentRecord{" +
+                "equipmentRecordId='" + equipmentRecordId + '\'' +
+                ", equipmentId='" + equipmentId + '\'' +
+                ", employeeId='" + employeeId + '\'' +
+                ", applyDate=" + applyDate +
+                ", returnDate=" + returnDate +
+                '}';
+    }
 }

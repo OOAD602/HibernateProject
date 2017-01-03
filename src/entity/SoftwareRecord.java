@@ -94,4 +94,15 @@ public class SoftwareRecord {
         result = 31 * result + (uninstallDate != null ? uninstallDate.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "SoftwareRecord{" +
+                "softwareRecordId='" + softwareRecordId + '\'' +
+                ", softwareId='" + softwareId + '\'' +
+                ", employeeId='" + employeeId + '\'' +
+                ", installDate=" + installDate +
+                ", uninstallDate=" + uninstallDate +
+                '}';
+    }
 }

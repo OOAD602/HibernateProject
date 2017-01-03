@@ -96,4 +96,15 @@ public class Equipment {
         result = 31 * result + (equipmentActive != null ? equipmentActive.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Equipment{" +
+                "equipmentId='" + equipmentId + '\'' +
+                ", equipmentName='" + equipmentName + '\'' +
+                ", purchaseDate=" + purchaseDate +
+                ", brokenDate=" + brokenDate +
+                ", equipmentActive=" + equipmentActive +
+                '}';
+    }
 }

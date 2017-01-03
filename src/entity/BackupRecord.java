@@ -108,4 +108,16 @@ public class BackupRecord {
         result = 31 * result + (backReturnDate != null ? backReturnDate.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "BackupRecord{" +
+                "backupRecordId='" + backupRecordId + '\'' +
+                ", backupId='" + backupId + '\'' +
+                ", employeeId='" + employeeId + '\'' +
+                ", equipmentId='" + equipmentId + '\'' +
+                ", backApplyDate=" + backApplyDate +
+                ", backReturnDate=" + backReturnDate +
+                '}';
+    }
 }

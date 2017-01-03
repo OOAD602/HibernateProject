@@ -94,4 +94,15 @@ public class Software {
         result = 31 * result + (softwareActive != null ? softwareActive.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Software{" +
+                "softwareId='" + softwareId + '\'' +
+                ", softwareName='" + softwareName + '\'' +
+                ", updateDate=" + updateDate +
+                ", expireDate=" + expireDate +
+                ", softwareActive=" + softwareActive +
+                '}';
+    }
 }
