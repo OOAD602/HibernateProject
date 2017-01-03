@@ -14,9 +14,10 @@ import entity.EquipmentRecord;
 public class EquipmentService {
     Dao dao = new Dao();
 
-    public boolean addEquipment(String name, int autho) {
-        if (autho != 0 && autho != 1) {
-            return false;
+    public String addEquipment(String name, Role autho) {
+        if( !autho.equals(Role.Admin) && !autho.equals(Role.Purchaser)) {
+            System.out.println("无权限");
+            return null;
         }
         System.out.println("in service");
         Equipment newEquipment = new Equipment();
@@ -26,10 +27,17 @@ public class EquipmentService {
         newEquipment.setPurchaseDate(sqlDate);
         newEquipment.setEquipmentId("E" + System.currentTimeMillis());
         newEquipment.setEquipmentActive(State.ACTIVE);
-        return dao.buy(newEquipment);
+        boolean result = dao.buy(newEquipment);
+        if (result) {
+            System.out.println("新增设备成功");
+            return newEquipment.getEquipmentId();
+        } else {
+            System.out.println("新增设备失败");
+            return null;
+        }
     }
 
-    public void borrowEquipment(String userId, String equipmentName) {
+    public String borrowEquipment(String userId, String equipmentName) {
         LocalDate todayLocalDate = LocalDate.now(ZoneId.of("America/Montreal"));
         java.sql.Date sqlDate = java.sql.Date.valueOf(todayLocalDate);
         EquipmentRecord er = new EquipmentRecord();
@@ -39,8 +47,10 @@ public class EquipmentService {
         String equipId = dao.borrowEquipment(er, equipmentName);
         if (equipId != null) {
             System.out.println("您申请到的设备ID为：" + equipId);
+            return  equipId;
         } else {
             System.out.println("您未成功申领到设备");
+            return null;
         }
     }
 
@@ -55,10 +65,10 @@ public class EquipmentService {
         }
     }
 
-    public void brokeEquipment(String equipmentId, int autho) {
-        if (autho != 0 && autho != 1) {
+    public void brokeEquipment(String equipmentId, Role autho) {
+        if( !autho.equals(Role.Admin) && !autho.equals(Role.Purchaser)) {
             System.out.println("无权限");
-            ;
+            return;
         }
         LocalDate todayLocalDate = LocalDate.now(ZoneId.of("America/Montreal"));
         java.sql.Date sqlDate = java.sql.Date.valueOf(todayLocalDate);

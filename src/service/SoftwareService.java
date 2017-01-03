@@ -16,9 +16,10 @@ import service.State;
 public class SoftwareService {
     Dao dao = new Dao();
 
-    public void addSoftware(String name, int autho) {
-        if (autho != 0 && autho != 1) {
+    public String addSoftware(String name, Role autho) {
+        if( !autho.equals(Role.Admin) && !autho.equals(Role.Purchaser)) {
             System.out.println("无权限");
+            return null;
         }
         Software newSoftware = new Software();
         newSoftware.setSoftwareName(name);
@@ -30,24 +31,27 @@ public class SoftwareService {
         boolean result = dao.buySoftware(newSoftware);
         if (result) {
             System.out.println("新增成功");
+            return newSoftware.getSoftwareId();
         } else {
             System.out.println("新增失败");
+            return null;
         }
     }
 
-    public void installSoftware(String userId, String SoftwareName) {
+    public String installSoftware(String userId, String SoftwareName) {
         LocalDate todayLocalDate = LocalDate.now(ZoneId.of("America/Montreal"));
         java.sql.Date sqlDate = java.sql.Date.valueOf(todayLocalDate);
         SoftwareRecord sr = new SoftwareRecord();
         sr.setInstallDate(sqlDate);
         sr.setEmployeeId(userId);
         sr.setSoftwareRecordId("SR" + System.currentTimeMillis());
-        String equipId = dao.installSoftware(sr, SoftwareName);
-        if (equipId != null) {
-            System.out.println("您申请到的设备ID为：" + equipId);
+        String softId = dao.installSoftware(sr, SoftwareName);
+        if (softId != null) {
+            System.out.println("您申请到的设备ID为：" + softId);
         } else {
             System.out.println("您未成功申领到设备");
         }
+        return softId;
     }
 
     public void uninstallSoftware(String SoftwareId) {
@@ -61,9 +65,10 @@ public class SoftwareService {
         }
     }
 
-    public void brokeSoftware(String SoftwareId, int autho) {
-        if (autho != 0 && autho != 1) {
+    public void brokeSoftware(String SoftwareId, Role autho) {
+        if( !autho.equals(Role.Admin) && !autho.equals(Role.Purchaser)) {
             System.out.println("无权限");
+            return;
         }
         LocalDate todayLocalDate = LocalDate.now(ZoneId.of("America/Montreal"));
         java.sql.Date sqlDate = java.sql.Date.valueOf(todayLocalDate);

@@ -5,6 +5,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import service.BackupService;
 import service.EquipmentService;
+import service.Role;
 import service.SoftwareService;
 
 import java.util.Scanner;
@@ -34,32 +35,52 @@ public class Main {
         EquipmentService es = new EquipmentService();
         BackupService bs = new BackupService();
         SoftwareService ss = new SoftwareService();
-
-        //        es.addEquipment("macbookpro", 0);
-//        es.borrowEquipment("U001","macbookpro");
         Scanner sc = new Scanner(System.in);
+        System.out.println("请输入用户类型：");
+        String usertype = sc.next();
+        Role role;
+        switch (usertype) {
+            case "admin":
+                role = Role.Admin;
+                break;
+            case "HR":
+                role = Role.HR;
+                break;
+            case "purchaser":
+                role = Role.Purchaser;
+                break;
+            case "employee":
+                role = Role.Employee;
+                break;
+            default:
+                role = Role.Employee;
+        }
+        System.out.println("请输入用户ID：");
+        String userId = sc.next();
+        System.out.println("请输入操作类别：");
+
         while(sc.hasNext()) {
             String opr = sc.next();
             switch (opr) {
                 case "adde":
                     System.out.println("请输入新购买设备的名称");
                     String newEName = sc.next();
-                    es.addEquipment(newEName, 0);
+                    es.addEquipment(newEName, role);
                     break;
                 case "addb":
                     System.out.println("请输入新购买备件的名称");
                     String newBName = sc.next();
-                    bs.addBackup(newBName, 0);
+                    bs.addBackup(newBName, role);
                     break;
                 case "adds":
                     System.out.println("请输入新购买软件的名称");
                     String newSName = sc.next();
-                    ss.addSoftware(newSName, 0);
+                    ss.addSoftware(newSName, role);
                     break;
                 case "be":
                     System.out.println("请输入申请设备的名称");
                     String eName = sc.next();
-                    es.borrowEquipment("U001", eName);
+                    es.borrowEquipment(userId, eName);
                     break;
                 case "re":
                     System.out.println("请输入归还设备的ID");
@@ -71,7 +92,7 @@ public class Main {
                     String bName = sc.next();
                     System.out.println("请输入安装备件的设备的ID");
                     String addEId = sc.next();
-                    bs.borrowBackup("U001",addEId, bName);
+                    bs.borrowBackup(userId,addEId, bName);
                     break;
                 case "rb":
                     System.out.println("请输入归还备件的ID");
@@ -81,7 +102,7 @@ public class Main {
                 case "is":
                     System.out.println("请输入申请软件的名称");
                     String isName = sc.next();
-                    ss.installSoftware("U001", isName);
+                    ss.installSoftware(userId, isName);
                     break;
                 case "us":
                     System.out.println("请输入归还软件的ID");

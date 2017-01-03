@@ -92,7 +92,7 @@ public class Dao {
         //默认查询出来的list里存放的是一个Object数组
         List<Equipment> equipments = query.list();
         for (Equipment equipment : equipments) {
-            if (equipment.getBrokenDate() == null && equipment.getEquipmentActive() == State.INACTIVE) {
+            if (equipment.getBrokenDate() == null && equipment.getEquipmentActive() == State.ACTIVE) {
                 equipment.setBrokenDate(brokeDate);
                 equipment.setEquipmentActive(State.INACTIVE);
                 tran.commit();
@@ -248,8 +248,9 @@ public class Dao {
         //默认查询出来的list里存放的是一个Object数组
         List<Backup> backups = query.list();
         for (Backup backup : backups) {
-            if (backup.getBackBrokenDate() == null && backup.getBackActive() == State.INACTIVE) {
+            if (backup.getBackBrokenDate() == null && backup.getBackActive() == State.ACTIVE) {
                 backup.setBackBrokenDate(brokeDate);
+                backup.setBackActive(State.INACTIVE);
                 tran.commit();
                 session.close();
                 return true;

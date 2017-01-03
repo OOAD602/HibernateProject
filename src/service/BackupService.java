@@ -6,7 +6,6 @@ import entity.BackupRecord;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.Date;
 
 /**
  * Created by Ding on 17/1/1.
@@ -14,9 +13,10 @@ import java.util.Date;
 public class BackupService {
     Dao dao = new Dao();
 
-    public void addBackup(String name, int autho) {
-        if (autho != 0 && autho != 1) {
-            System.out.println("无此权限");
+    public String addBackup(String name, Role autho) {
+        if( !autho.equals(Role.Admin) && !autho.equals(Role.Purchaser)) {
+            System.out.println("无权限");
+            return null;
         }
         Backup newBackup = new Backup();
         newBackup.setBackupName(name);
@@ -28,21 +28,29 @@ public class BackupService {
         boolean result = dao.buy(newBackup);
         if (result) {
             System.out.println("新增备件成功");
+            return newBackup.getBackupId();
         } else {
             System.out.println("新增备件失败");
+            return null;
         }
     }
 
-    public boolean brokeBackup(String backupId, int autho) {
-        if (autho != 0 && autho != 1) {
-            return false;
+    public void brokeBackup(String backupId, Role autho) {
+        if( !autho.equals(Role.Admin) && !autho.equals(Role.Purchaser)) {
+            System.out.println("无权限");
+            return;
         }
         LocalDate todayLocalDate = LocalDate.now(ZoneId.of("America/Montreal"));
         java.sql.Date sqlDate = java.sql.Date.valueOf(todayLocalDate);
-        return dao.saveBrokenBackup(sqlDate, backupId);
+        boolean result =  dao.saveBrokenBackup(sqlDate, backupId);
+        if (result) {
+            System.out.println("报废成功");
+        } else {
+            System.out.println("报废失败");
+        }
     }
 
-    public void borrowBackup(String employeeId, String eId, String backupName) {
+    public String borrowBackup(String employeeId, String eId, String backupName) {
         LocalDate todayLocalDate = LocalDate.now(ZoneId.of("America/Montreal"));
         java.sql.Date sqlDate = java.sql.Date.valueOf(todayLocalDate);
         BackupRecord br = new BackupRecord();
@@ -56,6 +64,7 @@ public class BackupService {
         } else {
             System.out.println("申请备件失败");
         }
+        return result;
     }
 
     public void returnBackup(String backupId) {
