@@ -72,9 +72,9 @@ public class SearchDao {
 
     public List searchAllMyLog(String userId) {
         List log = new ArrayList<>();
-        log.addAll(searchAllMyEquipment(userId));
-        log.addAll(searchAllMySoftware(userId));
-        log.addAll(searchAllMyBackup(userId));
+        log.addAll(searchBackupLogByUser(userId));
+        log.addAll(searchEquipmentLogByUser(userId));
+        log.addAll(searchSoftwareLogByUser(userId));
 
         return log;
     }
@@ -99,6 +99,33 @@ public class SearchDao {
     public List<EquipmentRecord> searchEquipmentLog() {
         this.session = factory.openSession();
         Query query = session.createQuery("FROM EquipmentRecord ");
+        List result = query.list();
+        session.close();
+        return result;
+    }
+
+    public List<EquipmentRecord> searchEquipmentLogByUser(String userId) {
+        this.session = factory.openSession();
+        Query query = session.createQuery("FROM EquipmentRecord WHERE employeeId =:id");
+        query.setParameter("id", userId);
+        List result = query.list();
+        session.close();
+        return result;
+    }
+
+    public List<SoftwareRecord> searchSoftwareLogByUser(String userId) {
+        this.session = factory.openSession();
+        Query query = session.createQuery("FROM SoftwareRecord WHERE employeeId =:id");
+        query.setParameter("id", userId);
+        List result = query.list();
+        session.close();
+        return result;
+    }
+
+    public List<BackupRecord> searchBackupLogByUser(String userId) {
+        this.session = factory.openSession();
+        Query query = session.createQuery("FROM BackupRecord WHERE employeeId =:id");
+        query.setParameter("id", userId);
         List result = query.list();
         session.close();
         return result;

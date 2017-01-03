@@ -138,9 +138,9 @@ public class SearchService {
         }
         List result = new LinkedList();
 
-        result.addAll(listUsableBackupId(userId, role));
-        result.addAll(listUsableEquipmentId(userId, role));
-        result.addAll(listUsableSoftId(userId, role));
+        result.addAll(dao.searchAllMyBackup(userId));
+        result.addAll(dao.searchAllMyEquipment(userId));
+        result.addAll(dao.searchAllMySoftware(userId));
 
         return result;
     }

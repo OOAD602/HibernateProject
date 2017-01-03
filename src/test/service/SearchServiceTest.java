@@ -176,7 +176,7 @@ public class SearchServiceTest {
         List<BackupRecord> list = ss.listEquipmentBackupLog(eqId, role);
 
         Assert.assertEquals(list.size(), 1);
-        Assert.assertEquals(list.get(0).getBackupId(), "bb");
+        Assert.assertEquals("bb", list.get(0).getBackupId());
         role = Role.Purchaser;
         Exception exception = null;
         try {
