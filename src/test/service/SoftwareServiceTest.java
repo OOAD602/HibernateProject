@@ -2,6 +2,7 @@ package test.service;
 
 import entity.Software;
 import entity.SoftwareRecord;
+import exception.AuthorityException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -86,7 +87,11 @@ public void testAddSoftware() throws Exception {
         Assert.assertEquals(State.ACTIVE, active2);
     }
 
-    ss.addSoftware("test_add3", Role.HR);
+    try {
+        ss.addSoftware("test_add3", Role.HR);
+    } catch (Exception e) {
+        Assert.assertTrue(e instanceof AuthorityException);
+    }
     Query query3 = session.createQuery( "FROM Software where softwareName = :name");
     query3.setMaxResults(1);
     query3.setParameter("name","test_add3");
@@ -94,14 +99,17 @@ public void testAddSoftware() throws Exception {
     List<Software> list3 = query3.list();
     Assert.assertEquals(0,list3.size());
 
-    ss.addSoftware("test_add4", Role.Employee);
+    try {
+        ss.addSoftware("test_add4", Role.Employee);
+    } catch (Exception e) {
+        Assert.assertTrue(e instanceof AuthorityException);
+    }
     Query query4 = session.createQuery( "FROM Software where softwareName = :name");
     query4.setMaxResults(1);
     query4.setParameter("name","test_add4");
     //默认查询出来的list里存放的是一个Object数组
     List<Software> list4 = query4.list();
     Assert.assertEquals(0,list4.size());
-
     session.close();
 } 
 
@@ -197,7 +205,11 @@ public void testBrokeSoftware() throws Exception {
         Assert.assertEquals(State.INACTIVE, active2);
     }
 
-    ss.brokeSoftware(sId3, Role.HR);
+    try {
+        ss.brokeSoftware(sId3, Role.HR);
+    } catch (Exception e) {
+        Assert.assertTrue(e instanceof AuthorityException);
+    }
     Query query3 = session.createQuery( "FROM Software where softwareId = :id");
     query3.setMaxResults(1);
     query3.setParameter("id", sId3);
@@ -209,7 +221,11 @@ public void testBrokeSoftware() throws Exception {
         Assert.assertEquals(State.ACTIVE, active3);
     }
 
-    ss.brokeSoftware(sId4, Role.Employee);
+    try {
+        ss.brokeSoftware(sId4, Role.Employee);
+    } catch (Exception e) {
+        Assert.assertTrue(e instanceof AuthorityException);
+    }
     Query query4 = session.createQuery( "FROM Software where softwareId = :id");
     query4.setMaxResults(1);
     query4.setParameter("id", sId4);

@@ -3,17 +3,18 @@ package test.service;
 
 import entity.Equipment;
 import entity.EquipmentRecord;
+import exception.AuthorityException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
-import org.junit.*;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import service.EquipmentService;
 import service.Role;
 import service.State;
-
-import java.lang.ref.WeakReference;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -34,7 +35,7 @@ public class EquipmentServiceTest {
 
 @Before
 public void before() throws Exception { 
-} 
+}
 
 @After
 public void after() throws Exception { 
@@ -63,10 +64,16 @@ public void testAddEquipment() throws Exception {
         Assert.assertEquals(State.ACTIVE, active);
     }
 
-    String eId2 = es.addEquipment("test_add3", Role.Employee);
-    Assert.assertEquals(null, eId2);
-    String eId3 = es.addEquipment("test_add4", Role.HR);
-    Assert.assertEquals(null, eId3);
+    try {
+        es.addEquipment("test_add3", Role.Employee);
+    } catch (Exception e) {
+        Assert.assertTrue(e instanceof AuthorityException);
+    }
+    try {
+        es.addEquipment("test_add4", Role.HR);
+    } catch (Exception e) {
+        Assert.assertTrue(e instanceof AuthorityException);
+    }
 
     es.addEquipment("test_add2", Role.Purchaser);
     Query query2 = session.createQuery( "select equipmentName,purchaseDate,equipmentActive FROM Equipment order by equipmentId desc");
@@ -169,7 +176,11 @@ public void testBrokeEquipment() throws Exception {
         Assert.assertEquals(sqlDate, list.get(0).getBrokenDate());
     }
 
-    es.brokeEquipment(eId1, Role.Employee);
+    try {
+        es.brokeEquipment(eId2, Role.Employee);
+    } catch (Exception e) {
+        Assert.assertTrue(e instanceof AuthorityException);
+    }
     Query query2 = session.createQuery( "FROM Equipment where equipmentId = :id");
     query2.setMaxResults(1);
     query2.setParameter("id", eId2);
@@ -179,7 +190,11 @@ public void testBrokeEquipment() throws Exception {
         Assert.assertEquals(null, list2.get(0).getBrokenDate());
     }
 
-    es.brokeEquipment(eId1, Role.HR);
+    try {
+        es.brokeEquipment(eId3, Role.HR);
+    } catch (Exception e) {
+        Assert.assertTrue(e instanceof AuthorityException);
+    }
     Query query3 = session.createQuery( "FROM Equipment where equipmentId = :id");
     query3.setMaxResults(1);
     query3.setParameter("id", eId3);
@@ -189,7 +204,7 @@ public void testBrokeEquipment() throws Exception {
         Assert.assertEquals(null, list3.get(0).getBrokenDate());
     }
 
-    es.brokeEquipment(eId1, Role.Purchaser);
+    es.brokeEquipment(eId4, Role.Purchaser);
     Query query4 = session.createQuery( "FROM Equipment where equipmentId = :id");
     query4.setMaxResults(1);
     query4.setParameter("id", eId4);

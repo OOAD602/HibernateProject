@@ -8,6 +8,7 @@ import dao.Dao;
 import entity.Software;
 import entity.SoftwareRecord;
 
+import exception.AuthorityException;
 import service.State;
 
 /**
@@ -16,10 +17,9 @@ import service.State;
 public class SoftwareService {
     Dao dao = new Dao();
 
-    public String addSoftware(String name, Role autho) {
+    public String addSoftware(String name, Role autho) throws AuthorityException{
         if( !autho.equals(Role.Admin) && !autho.equals(Role.Purchaser)) {
-            System.out.println("无权限");
-            return null;
+            throw new AuthorityException(autho);
         }
         Software newSoftware = new Software();
         newSoftware.setSoftwareName(name);
@@ -65,10 +65,9 @@ public class SoftwareService {
         }
     }
 
-    public void brokeSoftware(String SoftwareId, Role autho) {
+    public void brokeSoftware(String SoftwareId, Role autho) throws AuthorityException{
         if( !autho.equals(Role.Admin) && !autho.equals(Role.Purchaser)) {
-            System.out.println("无权限");
-            return;
+            throw new AuthorityException(autho);
         }
         LocalDate todayLocalDate = LocalDate.now(ZoneId.of("America/Montreal"));
         java.sql.Date sqlDate = java.sql.Date.valueOf(todayLocalDate);

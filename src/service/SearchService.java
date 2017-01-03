@@ -1,8 +1,10 @@
 package service;
 
 import dao.SearchDao;
-import entity.EquipmentRecord;
+import entity.*;
+import exception.AuthorityException;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -12,95 +14,141 @@ import java.util.List;
 public class SearchService {
     SearchDao dao = new SearchDao();
 
-    public List<EquipmentRecord> allMyEquipment(String userId) {
+    public List<Equipment> getAllMyEquipment(String userId) {
         return dao.searchAllMyEquipment(userId);
     }
 
-    public boolean allMyLog(String userId) {
+    public List allMyLog(String userId) {
         return dao.searchAllMyLog(userId);
     }
 
-    public boolean allEquipment(int autho) {
-        if (autho != 0) {
-            return false;
+    public List<Equipment> allEquipment(Role role) throws AuthorityException {
+        if (!role.equals(Role.Admin)) {
+            throw new AuthorityException(role);
         }
         return dao.searchAllEquipment();
     }
 
-    public boolean allBackup(int autho) {
-        if (autho != 0) {
-            return false;
+    public List<Backup> allBackup(Role role) throws AuthorityException {
+        if (!role.equals(Role.Admin)) {
+            throw new AuthorityException(role);
         }
         return dao.searchAllBackup();
     }
 
-    public boolean equipmentLog(int autho) {
-        if (autho != 0) {
-            return false;
+    public List<EquipmentRecord> equipmentLog(Role role) throws AuthorityException {
+        if (!role.equals(Role.Admin)) {
+            throw new AuthorityException(role);
         }
         return dao.searchEquipmentLog();
     }
 
-    public boolean listSoftOwners(String softId, int autho) {
-        if (autho != 0) {
-            return false;
+    public List<String> listSoftOwners(String softId, Role role) throws AuthorityException {
+        if (!role.equals(Role.Admin)) {
+            throw new AuthorityException(role);
         }
-        return dao.searchSoftUserLogBySoftId(softId);
+
+        List<SoftwareRecord> softwareRecord = dao.searchSoftUserLogBySoftId(softId);
+        List<String> result = new LinkedList<>();
+        for (SoftwareRecord sr : softwareRecord) {
+            result.add(sr.getEmployeeId());
+        }
+        return result;
     }
 
-    public boolean listEquipmentOwners(String equipmentId, int autho) {
-        if (autho != 0) {
-            return false;
+    public List<String> listEquipmentOwners(String equipmentId, Role role) throws AuthorityException {
+        if (!role.equals(Role.Admin)) {
+            throw new AuthorityException(role);
         }
-        return dao.searchEquipUserLogByEquipId(equipmentId);
+        List<EquipmentRecord> equipmentRecords = dao.searchEquipUserLogByEquipId(equipmentId);
+        List<String> result = new LinkedList<>();
+        for (EquipmentRecord er : equipmentRecords) {
+            result.add(er.getEmployeeId());
+        }
+        return result;
     }
 
-    public boolean listEquipmentBackupLog(String equipmentId, int autho) {
-        if (autho != 0) {
-            return false;
+    public List<BackupRecord> listEquipmentBackupLog(String equipmentId, Role role) throws AuthorityException {
+        if (!role.equals(Role.Admin)) {
+            throw new AuthorityException(role);
         }
+        
         return dao.searchBackupLogByEquipmentId(equipmentId);
     }
 
-    public boolean listUsableEquipmentId(String equipmentName, int autho) {
-        if (autho != 0) {
-            return false;
+    public List<String> listUsableEquipmentId(String equipmentName, Role role) throws AuthorityException {
+        if (!role.equals(Role.Admin) && !role.equals(Role.HR)) {
+            throw new AuthorityException(role);
         }
-        return dao.searchEquipmentIdByName(equipmentName);
+        List<Equipment> equipments = dao.searchEquipmentByName(equipmentName);
+
+        List<String> result = new LinkedList<>();
+        for (Equipment equipment : equipments) {
+            if (equipment.getEquipmentActive().equals(State.ACTIVE)) {
+                result.add(equipment.getEquipmentId());
+            }
+        }
+
+        return result;
     }
 
-    public boolean listUsableSoftId(String softName, int autho) {
-        if (autho != 0) {
-            return false;
+    public List<String> listUsableSoftId(String softName, Role role) throws AuthorityException {
+        if (!role.equals(Role.Admin) && !role.equals(Role.HR)) {
+
+            throw new AuthorityException(role);
         }
-        return dao.searchSoftIdByName(softName);
+        List<Software> softwareList = dao.searchSoftwareByName(softName);
+
+        List<String> result = new LinkedList<>();
+        for (Software software : softwareList) {
+            if (software.getSoftwareActive().equals(State.ACTIVE)) {
+                result.add(software.getSoftwareId());
+            }
+        }
+
+        return result;
     }
 
-    public boolean listUsableBackupId(String backupName, int autho) {
-        if (autho != 0) {
-            return false;
+    public List<String> listUsableBackupId(String backupName, Role role) throws AuthorityException {
+        if (!role.equals(Role.Admin) && !role.equals(Role.HR)) {
+            throw new AuthorityException(role);
         }
-        return dao.searchBackupIdByName(backupName);
+        List<Backup> backupList = dao.searchBackupByName(backupName);
+
+        List<String> result = new LinkedList<>();
+        for (Backup backup : backupList) {
+            if (backup.getBackActive().equals(State.ACTIVE)) {
+                result.add(backup.getBackupId());
+            }
+        }
+
+        return result;
     }
 
-    public boolean listBackupLog(String backupId, int autho) {
-        if (autho != 0) {
-            return false;
+    public List<BackupRecord> listBackupLog(String backupId, Role role) throws AuthorityException {
+        if (!role.equals(Role.Admin)) {
+            throw new AuthorityException(role);
         }
         return dao.searchBackupLogById(backupId);
     }
 
-    public boolean listUsersAll(String userId, int autho) {
-        if (autho != 0 && autho != 2) {
-            return false;
+    public List<String> listUsersAll(String userId, Role role) throws AuthorityException {
+        if (!role.equals(Role.Admin) && !role.equals(Role.HR)) {
+            throw new AuthorityException(role);
         }
-        return dao.searchAllByUserId(userId);
+        List result = new LinkedList();
+
+        result.addAll(listUsableBackupId(userId, role));
+        result.addAll(listUsableEquipmentId(userId, role));
+        result.addAll(listUsableSoftId(userId, role));
+
+        return result;
     }
 
-    public boolean listUsersLog(String userId, int autho) {
-        if (autho != 0 && autho != 2) {
-            return false;
+    public List listUsersLog(String userId, Role role) throws AuthorityException {
+        if (!role.equals(Role.Admin) && !role.equals(Role.HR)) {
+            throw new AuthorityException(role);
         }
-        return dao.searchLogByUserId(userId);
+        return dao.searchAllMyLog(userId);
     }
 }

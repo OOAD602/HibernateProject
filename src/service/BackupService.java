@@ -3,6 +3,7 @@ package service;
 import dao.Dao;
 import entity.Backup;
 import entity.BackupRecord;
+import exception.AuthorityException;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -13,10 +14,9 @@ import java.time.ZoneId;
 public class BackupService {
     Dao dao = new Dao();
 
-    public String addBackup(String name, Role autho) {
+    public String addBackup(String name, Role autho) throws AuthorityException {
         if( !autho.equals(Role.Admin) && !autho.equals(Role.Purchaser)) {
-            System.out.println("无权限");
-            return null;
+            throw new AuthorityException(autho);
         }
         Backup newBackup = new Backup();
         newBackup.setBackupName(name);
@@ -35,10 +35,9 @@ public class BackupService {
         }
     }
 
-    public void brokeBackup(String backupId, Role autho) {
+    public void brokeBackup(String backupId, Role autho) throws AuthorityException{
         if( !autho.equals(Role.Admin) && !autho.equals(Role.Purchaser)) {
-            System.out.println("无权限");
-            return;
+            throw new AuthorityException(autho);
         }
         LocalDate todayLocalDate = LocalDate.now(ZoneId.of("America/Montreal"));
         java.sql.Date sqlDate = java.sql.Date.valueOf(todayLocalDate);

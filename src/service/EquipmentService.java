@@ -7,6 +7,7 @@ import java.time.ZoneId;
 import dao.Dao;
 import entity.Equipment;
 import entity.EquipmentRecord;
+import exception.AuthorityException;
 
 /**
  * Created by Ding on 17/1/1.
@@ -14,10 +15,9 @@ import entity.EquipmentRecord;
 public class EquipmentService {
     Dao dao = new Dao();
 
-    public String addEquipment(String name, Role autho) {
-        if( !autho.equals(Role.Admin) && !autho.equals(Role.Purchaser)) {
-            System.out.println("无权限");
-            return null;
+    public String addEquipment(String name, Role role) throws AuthorityException {
+        if( !role.equals(Role.Admin) && !role.equals(Role.Purchaser)) {
+            throw new AuthorityException(role);
         }
         System.out.println("in service");
         Equipment newEquipment = new Equipment();
@@ -65,10 +65,9 @@ public class EquipmentService {
         }
     }
 
-    public void brokeEquipment(String equipmentId, Role autho) {
+    public void brokeEquipment(String equipmentId, Role autho) throws AuthorityException{
         if( !autho.equals(Role.Admin) && !autho.equals(Role.Purchaser)) {
-            System.out.println("无权限");
-            return;
+            throw new AuthorityException(autho);
         }
         LocalDate todayLocalDate = LocalDate.now(ZoneId.of("America/Montreal"));
         java.sql.Date sqlDate = java.sql.Date.valueOf(todayLocalDate);

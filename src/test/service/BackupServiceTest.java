@@ -3,6 +3,7 @@ package test.service;
 import entity.Backup;
 import entity.BackupRecord;
 import entity.Equipment;
+import exception.AuthorityException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -22,7 +23,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
 
-/** 
+/**
 * BackupService Tester. 
 * 
 * @author <Authors name> 
@@ -32,7 +33,7 @@ import java.util.List;
 public class BackupServiceTest {
     Configuration config = new Configuration();
     SessionFactory factory = config.configure().buildSessionFactory();
-    String eId = "E1483417266387";
+    String eId = "E1483421681158";
     LocalDate todayLocalDate = LocalDate.now(ZoneId.of("America/Montreal"));
     java.sql.Date sqlDate = java.sql.Date.valueOf(todayLocalDate);
 
@@ -80,15 +81,21 @@ public void testAddBackup() throws Exception {
         Assert.assertEquals(State.ACTIVE, active2);
     }
 
-    String bId3 = bs.addBackup("test_add3", Role.HR);
-    Assert.assertEquals(null, bId3);
+    try {
+        bs.addBackup("test_add3", Role.HR);
+    } catch (AuthorityException e) {
+        Assert.assertTrue(e instanceof AuthorityException);
+    }
     Query query3 = session.createQuery( "FROM Backup where backupName = :name");
     query3.setParameter("name", "test_add3");
     List<Backup> list3 = query3.list();
     Assert.assertEquals(0,list3.size());
 
-    String bId4 = bs.addBackup("test_add4", Role.Employee);
-    Assert.assertEquals(null, bId4);
+    try {
+        bs.addBackup("test_add4", Role.Employee);
+    } catch (AuthorityException e) {
+        Assert.assertTrue(e instanceof AuthorityException);
+    }
     Query query4 = session.createQuery( "FROM Backup where backupName = :name");
     query4.setParameter("name", "test_add4");
     List<Backup> list4 = query4.list();
@@ -123,7 +130,11 @@ public void testBrokeBackup() throws Exception {
         Assert.assertEquals(sqlDate, list.get(0).getBackBrokenDate());
     }
 
-    bs.brokeBackup(bId2, Role.Employee);
+    try {
+        bs.brokeBackup(bId2, Role.Employee);
+    } catch (AuthorityException e) {
+        Assert.assertTrue(e instanceof AuthorityException);
+    }
     Query query2 = session.createQuery( "FROM Backup where backupId = :id");
     query2.setMaxResults(1);
     query2.setParameter("id", bId2);
@@ -133,7 +144,11 @@ public void testBrokeBackup() throws Exception {
         Assert.assertEquals(null, list2.get(0).getBackBrokenDate());
     }
 
-    bs.brokeBackup(bId3, Role.HR);
+    try {
+        bs.brokeBackup(bId3, Role.HR);
+    } catch (AuthorityException e) {
+        Assert.assertTrue(e instanceof AuthorityException);
+    }
     Query query3 = session.createQuery( "FROM Backup where backupId = :id");
     query3.setMaxResults(1);
     query3.setParameter("id", bId3);
