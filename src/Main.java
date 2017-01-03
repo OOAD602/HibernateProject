@@ -93,7 +93,7 @@ public class Main {
                     String bName = sc.next();
                     System.out.println("请输入安装备件的设备的ID");
                     String addEId = sc.next();
-                    bs.borrowBackup(userId,addEId, bName);
+                    bs.borrowBackup(userId, addEId, bName);
                     break;
                 case "rb":
                     System.out.println("请输入归还备件的ID");
@@ -174,7 +174,7 @@ public class Main {
                         default:
                             System.out.println("请输入正确的指令");
                     }
-                    if (result != null){
+                    if (result != null) {
                         if (result.isEmpty()) {
                             System.out.println("No Result!");
                         } else {
@@ -184,6 +184,7 @@ public class Main {
                     break;
                 default:
                     System.out.println("请输入正确的指令");
+
             }
         }
     }
