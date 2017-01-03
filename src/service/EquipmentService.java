@@ -29,10 +29,8 @@ public class EquipmentService {
         newEquipment.setEquipmentActive(State.ACTIVE);
         boolean result = dao.buy(newEquipment);
         if (result) {
-            System.out.println("新增设备成功");
             return newEquipment.getEquipmentId();
         } else {
-            System.out.println("新增设备失败");
             return null;
         }
     }
@@ -45,38 +43,24 @@ public class EquipmentService {
         er.setEmployeeId(userId);
         er.setEquipmentRecordId("ER" + System.currentTimeMillis());
         String equipId = dao.borrowEquipment(er, equipmentName);
-        if (equipId != null) {
-            System.out.println("您申请到的设备ID为：" + equipId);
-            return  equipId;
-        } else {
-            System.out.println("您未成功申领到设备");
-            return null;
-        }
+        return equipId;
     }
 
-    public void returnEquipment(String equipmentId) {
+    public boolean returnEquipment(String equipmentId) {
         LocalDate todayLocalDate = LocalDate.now(ZoneId.of("America/Montreal"));
         java.sql.Date sqlDate = java.sql.Date.valueOf(todayLocalDate);
         boolean result = dao.returnEquipment(sqlDate, equipmentId);
-        if (result) {
-            System.out.println("归还成功");
-        } else {
-            System.out.println("归还失败");
-        }
+        return result;
     }
 
-    public void brokeEquipment(String equipmentId, Role autho) throws AuthorityException{
+    public boolean brokeEquipment(String equipmentId, Role autho) throws AuthorityException{
         if( !autho.equals(Role.Admin) && !autho.equals(Role.Purchaser)) {
             throw new AuthorityException(autho);
         }
         LocalDate todayLocalDate = LocalDate.now(ZoneId.of("America/Montreal"));
         java.sql.Date sqlDate = java.sql.Date.valueOf(todayLocalDate);
         boolean result = dao.saveBrokenEquipment(sqlDate, equipmentId);
-        if (result) {
-            System.out.println("报废成功");
-        } else {
-            System.out.println("报废失败");
-        }
+        return result;
     }
 
 

@@ -30,10 +30,8 @@ public class SoftwareService {
         newSoftware.setSoftwareActive(State.ACTIVE);
         boolean result = dao.buySoftware(newSoftware);
         if (result) {
-            System.out.println("新增成功");
             return newSoftware.getSoftwareId();
         } else {
-            System.out.println("新增失败");
             return null;
         }
     }
@@ -46,37 +44,24 @@ public class SoftwareService {
         sr.setEmployeeId(userId);
         sr.setSoftwareRecordId("SR" + System.currentTimeMillis());
         String softId = dao.installSoftware(sr, SoftwareName);
-        if (softId != null) {
-            System.out.println("您申请到的设备ID为：" + softId);
-        } else {
-            System.out.println("您未成功申领到设备");
-        }
         return softId;
     }
 
-    public void uninstallSoftware(String SoftwareId) {
+    public boolean uninstallSoftware(String SoftwareId) {
         LocalDate todayLocalDate = LocalDate.now(ZoneId.of("America/Montreal"));
         java.sql.Date sqlDate = java.sql.Date.valueOf(todayLocalDate);
         boolean result = dao.uninstallSoftware(sqlDate, SoftwareId);
-        if (result) {
-            System.out.println("归还成功");
-        } else {
-            System.out.println("归还失败");
-        }
+        return result;
     }
 
-    public void brokeSoftware(String SoftwareId, Role autho) throws AuthorityException{
+    public boolean brokeSoftware(String SoftwareId, Role autho) throws AuthorityException{
         if( !autho.equals(Role.Admin) && !autho.equals(Role.Purchaser)) {
             throw new AuthorityException(autho);
         }
         LocalDate todayLocalDate = LocalDate.now(ZoneId.of("America/Montreal"));
         java.sql.Date sqlDate = java.sql.Date.valueOf(todayLocalDate);
         boolean result = dao.saveExpireSoftware(sqlDate, SoftwareId);
-        if (result) {
-            System.out.println("报废成功");
-        } else {
-            System.out.println("报废失败");
-        }
+        return result;
     }
 
 
