@@ -8,7 +8,6 @@ import org.junit.Before;
 import org.junit.After;
 import service.Role;
 import service.SearchService;
-import service.State;
 
 import java.util.List;
 
@@ -34,17 +33,10 @@ public class SearchServiceTest {
     @Test
     public void testGetAllMyEquipment() throws Exception {
         SearchService ss = new SearchService();
-        String userId = "employeeAAA";
+        String userId = "U00";
         List<Equipment> list = ss.getAllMyEquipment(userId);
 
-        Equipment expected = new Equipment();
-        expected.setEquipmentId("a");
-        expected.setEquipmentName("Mac");
-        expected.setEquipmentActive(State.INACTIVE);
-        expected.setPurchaseDate(null);
-        expected.setBrokenDate(null);
-
-        Assert.assertEquals(expected, list.get(0));
+        Assert.assertEquals("E01", list.get(0).getEquipmentId());
     }
 
     /**
@@ -53,7 +45,7 @@ public class SearchServiceTest {
     @Test
     public void testAllMyLog() throws Exception {
         SearchService ss = new SearchService();
-        String userId = "ea";
+        String userId = "U01";
         List list = ss.allMyLog(userId);
 
         Assert.assertEquals(list.size(), 2);
@@ -129,10 +121,10 @@ public class SearchServiceTest {
     public void testListSoftOwners() throws Exception {
         SearchService ss = new SearchService();
         Role role = Role.Admin;
-        String softId = "sb";
+        String softId = "S01";
         List<String> list = ss.listSoftOwners(softId, role);
 
-        Assert.assertEquals(list.get(0), "ea");
+        Assert.assertEquals(list.get(0), "U01");
         role = Role.Purchaser;
         Exception exception = null;
         try {
@@ -150,11 +142,11 @@ public class SearchServiceTest {
     public void testListEquipmentOwners() throws Exception {
         SearchService ss = new SearchService();
         Role role = Role.Admin;
-        String equipmentId = "a";
+        String equipmentId = "E01";
         List<String> list = ss.listEquipmentOwners(equipmentId, role);
 
         Assert.assertEquals(list.size(), 1);
-        Assert.assertEquals(list.get(0), "employeeAAA");
+        Assert.assertEquals(list.get(0), "U00");
         role = Role.Purchaser;
         Exception exception = null;
         try {
@@ -172,11 +164,11 @@ public class SearchServiceTest {
     public void testListEquipmentBackupLog() throws Exception {
         SearchService ss = new SearchService();
         Role role = Role.Admin;
-        String eqId = "a";
+        String eqId = "E00";
         List<BackupRecord> list = ss.listEquipmentBackupLog(eqId, role);
 
         Assert.assertEquals(list.size(), 1);
-        Assert.assertEquals("bb", list.get(0).getBackupId());
+        Assert.assertEquals("B0", list.get(0).getBackupId());
         role = Role.Purchaser;
         Exception exception = null;
         try {
@@ -213,7 +205,7 @@ public class SearchServiceTest {
     @Test
     public void testListUsersAll() throws Exception {
         SearchService ss = new SearchService();
-        String userId = "ea";
+        String userId = "U01";
         Role role = Role.Admin;
         List list = ss.listUsersAll(userId, role);
 
@@ -237,7 +229,7 @@ public class SearchServiceTest {
     @Test
     public void testListUsersLog() throws Exception {
         SearchService ss = new SearchService();
-        String userId = "ea";
+        String userId = "U01";
         Role role = Role.Admin;
         List list = ss.listUsersLog(userId, role);
 

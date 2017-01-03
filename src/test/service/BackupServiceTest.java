@@ -34,6 +34,7 @@ public class BackupServiceTest {
     Configuration config = new Configuration();
     SessionFactory factory = config.configure().buildSessionFactory();
     String eId = "E1483421681158";
+    String uID = "U001";
     LocalDate todayLocalDate = LocalDate.now(ZoneId.of("America/Montreal"));
     java.sql.Date sqlDate = java.sql.Date.valueOf(todayLocalDate);
 
@@ -172,7 +173,7 @@ public class BackupServiceTest {
     public void testBorrowBackup() throws Exception {
         BackupService bs = new BackupService();
         bs.addBackup("test_borrow", Role.Admin);
-        String bId = bs.borrowBackup("U001", eId, "test_borrow");
+        String bId = bs.borrowBackup(uID, eId, "test_borrow");
         Session session = factory.openSession();
         Query query = session.createQuery("FROM Backup where backupId = :id");
         query.setMaxResults(1);
@@ -187,7 +188,7 @@ public class BackupServiceTest {
         queryRecord.setParameter("id", bId);
         List<BackupRecord> recordList = queryRecord.list();
         if (recordList.size() > 0) {
-            Assert.assertEquals("U001", recordList.get(0).getEmployeeId());
+            Assert.assertEquals(uID, recordList.get(0).getEmployeeId());
             Assert.assertEquals(eId, recordList.get(0).getEquipmentId());
             LocalDate todayLocalDate = LocalDate.now(ZoneId.of("America/Montreal"));
             java.sql.Date sqlDate = java.sql.Date.valueOf(todayLocalDate);
@@ -203,7 +204,7 @@ public class BackupServiceTest {
     public void testReturnBackup() throws Exception {
         BackupService bs = new BackupService();
         bs.addBackup("test_return", Role.Admin);
-        String bId = bs.borrowBackup("U001", eId, "test_return");
+        String bId = bs.borrowBackup(uID, eId, "test_return");
         bs.returnBackup(bId);
         Session session = factory.openSession();
         Query query = session.createQuery("FROM Backup where backupId = :id");

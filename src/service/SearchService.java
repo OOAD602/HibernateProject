@@ -22,6 +22,18 @@ public class SearchService {
         return dao.searchAllMyLog(userId);
     }
 
+    public List<EquipmentRecord> allMyEqLog(String userId) {
+        return dao.searchEquipmentLogByUser(userId);
+    }
+
+    public List<SoftwareRecord> allMySoftLog(String userId) {
+        return dao.searchSoftwareLogByUser(userId);
+    }
+
+    public List<BackupRecord> allMyBackLog(String userId) {
+        return dao.searchBackupLogByUser(userId);
+    }
+
     public List<Equipment> allEquipment(Role role) throws AuthorityException {
         if (!role.equals(Role.Admin)) {
             throw new AuthorityException(role);
@@ -42,6 +54,7 @@ public class SearchService {
         }
         return dao.searchEquipmentLog();
     }
+
 
     public List<String> listSoftOwners(String softId, Role role) throws AuthorityException {
         if (!role.equals(Role.Admin)) {

@@ -173,13 +173,11 @@ public class Main {
                     String name;
                     List<?> result = null;
                     switch (opr) {
-                        case "eqbyuid":
-                            id = sc.next();
-                            result = schs.getAllMyEquipment(id);
+                        case "myeqbyuid":
+                            result = schs.getAllMyEquipment(userId);
                             break;
                         case "mylogbyuid":
-                            id = sc.next();
-                            result = schs.allMyLog(id);
+                            result = schs.allMyLog(userId);
                             break;
                         case "alleq":
                             result = schs.allEquipment(role);
@@ -189,6 +187,15 @@ public class Main {
                             break;
                         case "alleqr":
                             result = schs.equipmentLog(role);
+                            break;
+                        case "myeqlog":
+                            result = schs.allMyEqLog(userId);
+                            break;
+                        case "mysflog":
+                            result = schs.allMySoftLog(userId);
+                            break;
+                        case "mybklog":
+                            result = schs.allMyBackLog(userId);
                             break;
                         case "ubysid":
                             id = sc.next();
