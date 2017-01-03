@@ -3,14 +3,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-<<<<<<< HEAD
-import service.BackupService;
-import service.EquipmentService;
-import service.Role;
-import service.SoftwareService;
-=======
 import service.*;
->>>>>>> c7073ae6cb31b5bbcb324cd86c555e59c0af88b0
 
 import java.util.List;
 import java.util.Scanner;
@@ -40,7 +33,6 @@ public class Main {
         EquipmentService es = new EquipmentService();
         BackupService bs = new BackupService();
         SoftwareService ss = new SoftwareService();
-<<<<<<< HEAD
         Scanner sc = new Scanner(System.in);
         System.out.println("请输入用户类型：");
         String usertype = sc.next();
@@ -64,16 +56,11 @@ public class Main {
         System.out.println("请输入用户ID：");
         String userId = sc.next();
         System.out.println("请输入操作类别：");
-
-        while(sc.hasNext()) {
-=======
         SearchService schs = new SearchService();
 
         //        es.addEquipment("macbookpro", 0);
 //        es.borrowEquipment("U001","macbookpro");
-        Scanner sc = new Scanner(System.in);
         while (sc.hasNext()) {
->>>>>>> c7073ae6cb31b5bbcb324cd86c555e59c0af88b0
             String opr = sc.next();
             switch (opr) {
                 case "adde":
@@ -106,11 +93,7 @@ public class Main {
                     String bName = sc.next();
                     System.out.println("请输入安装备件的设备的ID");
                     String addEId = sc.next();
-<<<<<<< HEAD
                     bs.borrowBackup(userId,addEId, bName);
-=======
-                    bs.borrowBackup("U001", addEId, bName);
->>>>>>> c7073ae6cb31b5bbcb324cd86c555e59c0af88b0
                     break;
                 case "rb":
                     System.out.println("请输入归还备件的ID");
@@ -132,7 +115,7 @@ public class Main {
                     opr = sc.next();
                     String id;
                     String name;
-                    Role role = Role.Admin;
+                    role = Role.Admin;
                     List<?> result = null;
                     switch (opr) {
                         case "eqbyuid":

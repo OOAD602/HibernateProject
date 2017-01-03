@@ -12,8 +12,8 @@ import java.sql.Date;
 @Entity
 public class Equipment {
     private String equipmentId;
-    private Date purchaseDate;
     private String equipmentName;
+    private Date purchaseDate;
     private Date brokenDate;
     private Byte equipmentActive;
 
@@ -28,16 +28,6 @@ public class Equipment {
     }
 
     @Basic
-    @Column(name = "purchaseDate")
-    public Date getPurchaseDate() {
-        return purchaseDate;
-    }
-
-    public void setPurchaseDate(Date purchaseDate) {
-        this.purchaseDate = purchaseDate;
-    }
-
-    @Basic
     @Column(name = "equipmentName")
     public String getEquipmentName() {
         return equipmentName;
@@ -45,6 +35,16 @@ public class Equipment {
 
     public void setEquipmentName(String equipmentName) {
         this.equipmentName = equipmentName;
+    }
+
+    @Basic
+    @Column(name = "purchaseDate")
+    public Date getPurchaseDate() {
+        return purchaseDate;
+    }
+
+    public void setPurchaseDate(Date purchaseDate) {
+        this.purchaseDate = purchaseDate;
     }
 
     @Basic
@@ -76,9 +76,9 @@ public class Equipment {
 
         if (equipmentId != null ? !equipmentId.equals(equipment.equipmentId) : equipment.equipmentId != null)
             return false;
-        if (purchaseDate != null ? !purchaseDate.equals(equipment.purchaseDate) : equipment.purchaseDate != null)
-            return false;
         if (equipmentName != null ? !equipmentName.equals(equipment.equipmentName) : equipment.equipmentName != null)
+            return false;
+        if (purchaseDate != null ? !purchaseDate.equals(equipment.purchaseDate) : equipment.purchaseDate != null)
             return false;
         if (brokenDate != null ? !brokenDate.equals(equipment.brokenDate) : equipment.brokenDate != null) return false;
         if (equipmentActive != null ? !equipmentActive.equals(equipment.equipmentActive) : equipment.equipmentActive != null)
@@ -90,8 +90,8 @@ public class Equipment {
     @Override
     public int hashCode() {
         int result = equipmentId != null ? equipmentId.hashCode() : 0;
-        result = 31 * result + (purchaseDate != null ? purchaseDate.hashCode() : 0);
         result = 31 * result + (equipmentName != null ? equipmentName.hashCode() : 0);
+        result = 31 * result + (purchaseDate != null ? purchaseDate.hashCode() : 0);
         result = 31 * result + (brokenDate != null ? brokenDate.hashCode() : 0);
         result = 31 * result + (equipmentActive != null ? equipmentActive.hashCode() : 0);
         return result;

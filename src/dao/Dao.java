@@ -69,10 +69,12 @@ public class Dao {
             }
             equipment.setEquipmentActive(State.ACTIVE);
         }
-        query = session.createQuery("FROM EquipmentRecord where equipmentId = :id order by applyDate desc");
+        query = session.createQuery("FROM EquipmentRecord where equipmentId = :id order by equipmentRecordId desc");
         query.setParameter("id", eId);
+        query.setMaxResults(1);
         List<EquipmentRecord> ers = query.list();
-        for (EquipmentRecord er : ers) {
+        if (ers.size() > 0) {
+            EquipmentRecord er = ers.get(0);
             if (er.getReturnDate() == null) {
                 er.setReturnDate(sqldate);
                 tran.commit();
@@ -141,10 +143,12 @@ public class Dao {
     public boolean uninstallSoftware(Date sqldate, String sId) {
         session = factory.openSession();
         Transaction tran = session.beginTransaction();//开始事物
-        Query query = session.createQuery("FROM SoftwareRecord where softwareId= :id order by installDate desc");
+        Query query = session.createQuery("FROM SoftwareRecord where softwareId= :id order by softwareRecordId desc");
         query.setParameter("id", sId);
+        query.setMaxResults(1);
         List<SoftwareRecord> srs = query.list();
-        for (SoftwareRecord sr : srs) {
+        if (srs.size() > 0) {
+            SoftwareRecord sr = srs.get(0);
             if (sr.getUninstallDate() == null) {
                 sr.setUninstallDate(sqldate);
                 tran.commit();
@@ -225,10 +229,12 @@ public class Dao {
             }
             backup.setBackActive(State.ACTIVE);
         }
-        query = session.createQuery("FROM BackupRecord where backupId = :id order by backApplyDate desc");
+        query = session.createQuery("FROM BackupRecord where backupId = :id order by backupRecordId desc");
         query.setParameter("id", bId);
+        query.setMaxResults(1);
         List<BackupRecord> brs = query.list();
-        for (BackupRecord br : brs) {
+        if(brs.size()>0) {
+            BackupRecord br = brs.get(0);
             if (br.getBackReturnDate() == null) {
                 br.setBackReturnDate(sqldate);
                 tran.commit();

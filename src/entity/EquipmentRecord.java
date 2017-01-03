@@ -11,11 +11,21 @@ import java.sql.Date;
  */
 @Entity
 public class EquipmentRecord {
+    private String equipmentRecordId;
     private String equipmentId;
     private String employeeId;
     private Date applyDate;
     private Date returnDate;
-    private String equipmentRecordId;
+
+    @Id
+    @Column(name = "equipmentRecordId")
+    public String getEquipmentRecordId() {
+        return equipmentRecordId;
+    }
+
+    public void setEquipmentRecordId(String equipmentRecordId) {
+        this.equipmentRecordId = equipmentRecordId;
+    }
 
     @Basic
     @Column(name = "equipmentId")
@@ -57,16 +67,6 @@ public class EquipmentRecord {
         this.returnDate = returnDate;
     }
 
-    @Id
-    @Column(name = "equipmentRecordId")
-    public String getEquipmentRecordId() {
-        return equipmentRecordId;
-    }
-
-    public void setEquipmentRecordId(String equipmentRecordId) {
-        this.equipmentRecordId = equipmentRecordId;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -74,23 +74,23 @@ public class EquipmentRecord {
 
         EquipmentRecord that = (EquipmentRecord) o;
 
+        if (equipmentRecordId != null ? !equipmentRecordId.equals(that.equipmentRecordId) : that.equipmentRecordId != null)
+            return false;
         if (equipmentId != null ? !equipmentId.equals(that.equipmentId) : that.equipmentId != null) return false;
         if (employeeId != null ? !employeeId.equals(that.employeeId) : that.employeeId != null) return false;
         if (applyDate != null ? !applyDate.equals(that.applyDate) : that.applyDate != null) return false;
         if (returnDate != null ? !returnDate.equals(that.returnDate) : that.returnDate != null) return false;
-        if (equipmentRecordId != null ? !equipmentRecordId.equals(that.equipmentRecordId) : that.equipmentRecordId != null)
-            return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = equipmentId != null ? equipmentId.hashCode() : 0;
+        int result = equipmentRecordId != null ? equipmentRecordId.hashCode() : 0;
+        result = 31 * result + (equipmentId != null ? equipmentId.hashCode() : 0);
         result = 31 * result + (employeeId != null ? employeeId.hashCode() : 0);
         result = 31 * result + (applyDate != null ? applyDate.hashCode() : 0);
         result = 31 * result + (returnDate != null ? returnDate.hashCode() : 0);
-        result = 31 * result + (equipmentRecordId != null ? equipmentRecordId.hashCode() : 0);
         return result;
     }
 }

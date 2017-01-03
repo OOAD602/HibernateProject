@@ -11,12 +11,22 @@ import java.sql.Date;
  */
 @Entity
 public class BackupRecord {
+    private String backupRecordId;
     private String backupId;
     private String employeeId;
+    private String equipmentId;
     private Date backApplyDate;
     private Date backReturnDate;
-    private String backupRecordId;
-    private String equipmentId;
+
+    @Id
+    @Column(name = "backupRecordId")
+    public String getBackupRecordId() {
+        return backupRecordId;
+    }
+
+    public void setBackupRecordId(String backupRecordId) {
+        this.backupRecordId = backupRecordId;
+    }
 
     @Basic
     @Column(name = "backupId")
@@ -39,6 +49,16 @@ public class BackupRecord {
     }
 
     @Basic
+    @Column(name = "equipmentId")
+    public String getEquipmentId() {
+        return equipmentId;
+    }
+
+    public void setEquipmentId(String equipmentId) {
+        this.equipmentId = equipmentId;
+    }
+
+    @Basic
     @Column(name = "backApplyDate")
     public Date getBackApplyDate() {
         return backApplyDate;
@@ -58,26 +78,6 @@ public class BackupRecord {
         this.backReturnDate = backReturnDate;
     }
 
-    @Id
-    @Column(name = "backupRecordId")
-    public String getBackupRecordId() {
-        return backupRecordId;
-    }
-
-    public void setBackupRecordId(String backupRecordId) {
-        this.backupRecordId = backupRecordId;
-    }
-
-    @Basic
-    @Column(name = "equipmentId")
-    public String getEquipmentId() {
-        return equipmentId;
-    }
-
-    public void setEquipmentId(String equipmentId) {
-        this.equipmentId = equipmentId;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -85,27 +85,27 @@ public class BackupRecord {
 
         BackupRecord that = (BackupRecord) o;
 
+        if (backupRecordId != null ? !backupRecordId.equals(that.backupRecordId) : that.backupRecordId != null)
+            return false;
         if (backupId != null ? !backupId.equals(that.backupId) : that.backupId != null) return false;
         if (employeeId != null ? !employeeId.equals(that.employeeId) : that.employeeId != null) return false;
+        if (equipmentId != null ? !equipmentId.equals(that.equipmentId) : that.equipmentId != null) return false;
         if (backApplyDate != null ? !backApplyDate.equals(that.backApplyDate) : that.backApplyDate != null)
             return false;
         if (backReturnDate != null ? !backReturnDate.equals(that.backReturnDate) : that.backReturnDate != null)
             return false;
-        if (backupRecordId != null ? !backupRecordId.equals(that.backupRecordId) : that.backupRecordId != null)
-            return false;
-        if (equipmentId != null ? !equipmentId.equals(that.equipmentId) : that.equipmentId != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = backupId != null ? backupId.hashCode() : 0;
+        int result = backupRecordId != null ? backupRecordId.hashCode() : 0;
+        result = 31 * result + (backupId != null ? backupId.hashCode() : 0);
         result = 31 * result + (employeeId != null ? employeeId.hashCode() : 0);
+        result = 31 * result + (equipmentId != null ? equipmentId.hashCode() : 0);
         result = 31 * result + (backApplyDate != null ? backApplyDate.hashCode() : 0);
         result = 31 * result + (backReturnDate != null ? backReturnDate.hashCode() : 0);
-        result = 31 * result + (backupRecordId != null ? backupRecordId.hashCode() : 0);
-        result = 31 * result + (equipmentId != null ? equipmentId.hashCode() : 0);
         return result;
     }
 }
