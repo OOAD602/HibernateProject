@@ -3,11 +3,16 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+<<<<<<< HEAD
 import service.BackupService;
 import service.EquipmentService;
 import service.Role;
 import service.SoftwareService;
+=======
+import service.*;
+>>>>>>> c7073ae6cb31b5bbcb324cd86c555e59c0af88b0
 
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -35,6 +40,7 @@ public class Main {
         EquipmentService es = new EquipmentService();
         BackupService bs = new BackupService();
         SoftwareService ss = new SoftwareService();
+<<<<<<< HEAD
         Scanner sc = new Scanner(System.in);
         System.out.println("请输入用户类型：");
         String usertype = sc.next();
@@ -60,6 +66,14 @@ public class Main {
         System.out.println("请输入操作类别：");
 
         while(sc.hasNext()) {
+=======
+        SearchService schs = new SearchService();
+
+        //        es.addEquipment("macbookpro", 0);
+//        es.borrowEquipment("U001","macbookpro");
+        Scanner sc = new Scanner(System.in);
+        while (sc.hasNext()) {
+>>>>>>> c7073ae6cb31b5bbcb324cd86c555e59c0af88b0
             String opr = sc.next();
             switch (opr) {
                 case "adde":
@@ -92,7 +106,11 @@ public class Main {
                     String bName = sc.next();
                     System.out.println("请输入安装备件的设备的ID");
                     String addEId = sc.next();
+<<<<<<< HEAD
                     bs.borrowBackup(userId,addEId, bName);
+=======
+                    bs.borrowBackup("U001", addEId, bName);
+>>>>>>> c7073ae6cb31b5bbcb324cd86c555e59c0af88b0
                     break;
                 case "rb":
                     System.out.println("请输入归还备件的ID");
@@ -109,25 +127,88 @@ public class Main {
                     String isId = sc.next();
                     ss.uninstallSoftware(isId);
                     break;
+                case "search":
+                    System.out.println("请输入需要查询的对象：");
+                    opr = sc.next();
+                    String id;
+                    String name;
+                    Role role = Role.Admin;
+                    List<?> result = null;
+                    switch (opr) {
+                        case "eqbyuid":
+                            id = sc.next();
+                            result = schs.getAllMyEquipment(id);
+                            break;
+                        case "mylogbyuid":
+                            id = sc.next();
+                            result = schs.allMyLog(id);
+                            break;
+                        case "alleq":
+                            result = schs.allEquipment(role);
+                            break;
+                        case "allbc":
+                            result = schs.allBackup(role);
+                            break;
+                        case "alleqr":
+                            result = schs.equipmentLog(role);
+                            break;
+                        case "ubysid":
+                            id = sc.next();
+                            result = schs.listSoftOwners(id, role);
+                            break;
+                        case "ubyeid":
+                            id = sc.next();
+                            result = schs.listEquipmentOwners(id, role);
+                            break;
+                        case "bcrbyeid":
+                            id = sc.next();
+                            result = schs.listEquipmentBackupLog(id, role);
+                            break;
+                        case "eidbyname":
+                            name = sc.next();
+                            result = schs.listUsableEquipmentId(name, role);
+                            break;
+                        case "sidbyname":
+                            name = sc.next();
+                            result = schs.listUsableSoftId(name, role);
+                            break;
+                        case "bidbyname":
+                            name = sc.next();
+                            result = schs.listUsableBackupId(name, role);
+                            break;
+                        case "bcrbybid":
+                            id = sc.next();
+                            result = schs.listBackupLog(id, role);
+                            break;
+                        case "allbyuid":
+                            id = sc.next();
+                            result = schs.listUsersAll(id, role);
+                            break;
+                        case "logbyuid":
+                            id = sc.next();
+                            result = schs.listUsersLog(id, role);
+                            break;
+                        default:
+                            System.out.println("请输入正确的指令");
+                    }
+                    if (result != null){
+                        if (result.isEmpty()) {
+                            System.out.println("No Result!");
+                        } else {
+                            iterateOutput(result);
+                        }
+                    }
+                    break;
                 default:
                     System.out.println("请输入正确的指令");
             }
         }
-//        es.returnEquipment("E1483350326639");
-        try {
-            System.out.println("querying all the managed entities...");
+    }
 
-//            final Metamodel metamodel = session.getSessionFactory().getMetamodel();
-//            for (EntityType<?> entityType : metamodel.getEntities()) {
-//                final String entityName = entityType.getName();
-//                final Query query = session.createQuery("from " + entityName);
-//                System.out.println("executing: " + query.getQueryString());
-//                for (Object o : query.list()) {
-//                    System.out.println("  " + o);
-//                }
-//            }
-        } finally {
-            session.close();
+    public static void iterateOutput(List result) {
+        for (Object e : result) {
+            System.out.println(e.toString());
         }
     }
 }
+

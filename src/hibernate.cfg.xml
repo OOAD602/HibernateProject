@@ -6,10 +6,17 @@
     <session-factory>
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
         <property name="connection.url">jdbc:mysql://localhost:3306/promanager</property>
+<<<<<<< HEAD
         <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
         <property name="show_sql">true</property>
         <property name="connection.username">root</property>
         <property name="connection.password">stay</property>
+=======
+        <property name="connection.username">root</property>
+        <property name="connection.password">950720</property>
+        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+        <property name="show_sql">true</property>
+>>>>>>> c7073ae6cb31b5bbcb324cd86c555e59c0af88b0
         <mapping class="entity.Backup"/>
         <mapping class="entity.BackupRecord"/>
         <mapping class="entity.Employee"/>
