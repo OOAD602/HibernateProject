@@ -1,14 +1,12 @@
 package dao;
 
 import entity.*;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -73,7 +71,7 @@ public class SearchDao {
     }
 
     public List searchAllMyLog(String userId) {
-        List log = new LinkedList();
+        List log = new ArrayList<>();
         log.addAll(searchAllMyEquipment(userId));
         log.addAll(searchAllMySoftware(userId));
         log.addAll(searchAllMyBackup(userId));
@@ -195,13 +193,4 @@ public class SearchDao {
         session.close();
         return result;
     }
-
-    public List searchAllByUserId(String userId) {
-        List list = new LinkedList();
-        list.addAll(searchAllMySoftware(userId));
-        list.addAll(searchAllMyEquipment(userId));
-        list.addAll(searchAllMyBackup(userId));
-        return list;
-    }
-
 }

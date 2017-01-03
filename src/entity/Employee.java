@@ -12,6 +12,7 @@ import javax.persistence.Id;
 public class Employee {
     private String employeeId;
     private String password;
+    private String role;
 
     @Id
     @Column(name = "employeeId")
@@ -51,5 +52,15 @@ public class Employee {
         int result = employeeId != null ? employeeId.hashCode() : 0;
         result = 31 * result + (password != null ? password.hashCode() : 0);
         return result;
+    }
+
+    @Basic
+    @Column(name = "role")
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }
